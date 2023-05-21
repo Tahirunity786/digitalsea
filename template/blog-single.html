@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+{% load static %}
+{% load humanize %}
+{% load extras %}
+<!-- section main content -->
+<section class="main-content mt-3">
+	<div class="container-xl">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item"><a
+						href="/core/{{ unique_post.0.category.slug }}">{{ unique_post.0.category }}</a></li>
+				<li class="breadcrumb-item active" aria-current="page"> {{ unique_post.0.Title }} </li>
+			</ol>
+		</nav>
+
+
+		<div class="row gy-4">
+
+			<div class="col-lg-8">
+				<!-- post single -->
+				<div class="post post-single">
+					<!-- post header -->
+					<div class="post-header">
+						<h1 class="title mt-0 mb-3"> {{ unique_post.0.Title }} </h1>
+						<ul class="meta list-inline mb-0">
+							<li class="list-inline-item"><a href="/admin/"><img
+										src="{% static 'images/other/author-sm.png' %}" class="author"
+										alt="author" />{{unique_post.0.author}}</a></li>
+							<li class="list-inline-item"><a href="{{unique_post.0.category.slug}}">{{unique_post.0.category }}</a></li>
+							<li class="list-inline-item">{{ unique_post.0.Date }}</li>
+						</ul>
+					</div>
+					<!-- featured image -->
+					<div class="featured-image">
+						<img src="/media/{{ unique_post.0.Feature_Image }}" alt="post-title" />
+					</div>
+					<!-- post content -->
+					<div class="post-content clearfix">
+						{{unique_post.0.content|safe }}
+						{% comment %} <figure class="figure">
+							<img src="/media/{{unique_post.0.IMAGE_POST_B}}" class="figure-img img-fluid rounded"
+								alt="Second Image">
+						</figure> {% endcomment %}
+
+					</div>
+					<!-- post bottom section -->
+					<div class="post-bottom">
+						<div class="row d-flex align-items-center">
+							<div class="col-md-6 col-12 text-center text-md-start">
+								<!-- tags -->
+								{% if not post_rel_tags%}
+								<h6>Tags are not added yet! </h6>
+								{% else %}
+								{% for i in post_rel_tags%}
+								<a href="/" class="tag">#{{i.Name}}</a>
+								{% endfor %}
+								{% endif %}
+							</div>
+							<div class="col-md-6 col-12">
+								<!-- tempoary down code -->
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- Temporary down code -->
+				<div class="spacer" data-height="50"></div>
+
+				<!-- section header -->
+				<div class="section-header">
+					<h3 class="section-title">Comments
+						( {{unique_post_comment_number}} )
+					</h3>
+					<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
+				</div>
+				<!-- post comments -->
+				<div class="comments bordered padding-30 rounded" id="commentsec">
+
+					<ul class="comments">
+
+						<li class="comment rounded">
+							{% if not unique_post_comment %}
+							<h6>No comment here...</h6>
+							{% else %}
+							{% for i in unique_post_comment %}
+							
+							
+							<li class="comment child rounded">
+								<div class="thumb">
+									<img style='height:3rem; width:3rem; border-radius: 50%; '
+									src="{% static 'images/other/comment.png'%}" alt="John Doe" />
+								</div>
+								<div class="details">
+							
+								<h4 class="name"><a href="#">{{i.user}}</a></h4>
+
+								<span class="date">{{i.Date|naturaltime}}</span>
+								<p>{{i.User_Message}}.</p>
+								
+								<!-- Reply button -->
+								<button class="btn btn-default btn-sm" type="button" data-bs-toggle="collapse"
+									data-bs-target="#collapseExample{{i.id}}" aria-expanded="false"
+									aria-controls="collapseExample{{i.id}}">
+									Reply
+								</button>
+								</p>
+								<div class="collapse" id="collapseExample{{i.id}}">
+									<div class="card card-body">
+										<form action="/postcomment/" method="post">
+											{% csrf_token %}
+											<div class="form-group">
+												<input type="email" class="form-control" id="InputEmail"
+													name="InputEmail" placeholder="Email address" required="required">
+											</div>
+											<!-- reply messages -->
+											<div class="form-group">
+												<input type="text" class="form-control" id="InputComment" name="InputComment"
+													placeholder="Reply now..." required="required">
+											</div>
+											<input type="hidden" name="mysano" value="{{i.id}}">
+											<input type="hidden" name="PostSno" placeholder={{unique_post.0.id}} value="{{unique_post.0.id}}">
+
+											<!-- Submit Button -->
+											<button type="submit" name="submit" id="submit" value="Submit"
+												class="btn btn-default btn-sm">Submit</button>
+
+										</form>
+									</div>
+								</div>
+								
+								<button class="btn btn-default mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#Rep{{i.id}}" aria-expanded="false" aria-controls="Rep{{i.id}}">
+									Show Replies <span><i class="fa fa-angle-down"></i></span>
+								  </button>
+								</p>
+								<div class="collapse" id="Rep{{i.id}}">
+									<div class="card card-body">
+										{% for reply in replyDict|get_val:i.id %}
+											<div class="thumb">
+												<img style="height:2rem; width:2rem; border-radius: 50%;" src="{% static 'images/other/comment.png' %}"
+													alt="John Doe" />
+											</div>
+											<div class="details" style="margin-left:0px">
+												<!-- Display reply details -->
+												<p class="name">Reply from <b>{{ reply.email }}</b> </a></p>
+												<span class="date">{{ reply.Date|naturaltime }}</span>
+												<p>{{ reply.User_Message }}</p>
+											</div>
+										{% endfor %}
+									</div>
+								</div>
+								
+							</div>
+
+						</li>
+						<!-- comment item -->
+						{% endfor %}
+						{% endif %}
+					</ul>
+				</div>
+
+				<div class="spacer" data-height="50"></div>
+
+				<!-- section header -->
+				<div class="section-header">
+					<h3 class="section-title">Leave Comment</h3>
+					<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
+				</div>
+				<!-- comment form -->
+				<div class="comment-form rounded bordered padding-30">
+
+					<form id="comment-form" class="comment-form" action="/postcomment/" method="post">
+						{% csrf_token %}
+						<div class="messages"></div>
+						<div class="row">
+
+							<div class="column col-md-12">
+								<!-- Comment textarea -->
+								<div class="form-group">
+									<textarea name="InputComment" id="InputComment" class="form-control" rows="4"
+										placeholder="Your comment here..." required="required"></textarea>
+								</div>
+							</div>
+
+							<div class="column col-md-6">
+								<!-- Email input -->
+								<div class="form-group">
+									<input type="email" class="form-control" id="InputEmail" name="InputEmail"
+										placeholder="Email address" required="required">
+								</div>
+							</div>
+
+							<div class="column col-md-6">
+								<!-- Wesite input -->
+								<div class="form-group">
+									<input type="text" class="form-control" name="InputWeb" id="InputWeb"
+										placeholder="Website">
+								</div>
+							</div>
+
+							<div class="column col-md-12">
+								<!-- Name input -->
+								<div class="form-group">
+									<input type="text" class="form-control" id="InputName" name="InputName"
+										placeholder="Your name" required="required">
+								</div>
+							</div>
+
+						</div>
+						
+						<input type="hidden" name="PostSno" placeholder={{unique_post.0.id}} value="{{unique_post.0.id}}">
+						
+						<input type="hidden" name="mysano" value="">
+
+						<button type="submit" name="submit" id="submit" value="Submit"
+							class="btn btn-default">Submit</button><!-- Submit Button -->
+
+					</form>
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+
+				<!-- sidebar -->
+				<div class="sidebar">
+					<!-- widget about -->
+					<div class="widget rounded">
+						<div class="widget-about data-bg-image text-center"
+							data-bg-image="{% static 'images/map-bg.png' %}">
+							<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60">
+								<text x="0" y="40" fill="#203656" font-size="25" font-weight="bold">Edge</text>
+								<text x="60" y="40" fill="#203656" font-size="25" font-weight="bold">Buddies</text>
+								<circle cx="170" cy="32" r="9" fill="#FE4F70" />
+							</svg>
+							<p class="mb-4">Hello, We're content writer who is fascinated by content fashion, celebrity
+								and lifestyle. We helps clients bring the right content to the right people.
+							</p>
+						</div>
+					</div>
+
+					<!-- widget popular posts -->
+					<div class="widget rounded">
+						<div class="widget-header text-center">
+							<h3 class="widget-title">Popular Posts</h3>
+							<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
+						</div>
+						<div class="widget-content">
+							{% for i in unique_puppular_posts %}
+							<!-- post -->
+							<div class="post post-list-sm circle">
+								<div class="thumb circle" style="height:4rem; width:4.2rem">
+									<span class="number">{{forloop.counter}}</span>
+									<a href="/core/{{i.new_slug}}">
+										<div class="inner">
+											<img src="/media/{{i.Feature_Image}}" alt="post-title"
+												style="height:4rem; width:5.2rem; object-fit:cover;" />
+										</div>
+									</a>
+								</div>
+								<div class="details clearfix" style="padding:0px 15px;">
+									<h6 class="post-title my-0"><a href="/core/{{i.new_slug}}">{{i.Title}}</a></h6>
+									<ul class="meta list-inline mt-1 mb-0">
+										<li class="list-inline-item">{{i.Date}}</li>
+									</ul>
+								</div>
+							</div>
+							{% endfor %}
+
+						</div>
+					</div>
+
+					<!-- widget categories -->
+					<div class="widget rounded">
+						<div class="widget-header text-center">
+							<h3 class="widget-title">Explore Topics</h3>
+							<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
+						</div>
+						<div class="widget-content">
+							<ul class="list">
+								<ul style="list-style:none;">
+									{% for category in unique_post_category %}
+									<li><a href="/core/{{category.slug}}">{{ category.Name }}</a>
+										<span>{{ category.post_set.all|length }}</span>
+									</li>
+									{% endfor %}
+								</ul>
+
+
+							</ul>
+
+
+						</div>
+					</div>
+
+
+					<!-- widget advertisement -->
+					<div class="widget no-container rounded text-md-center">
+						<span class="ads-title">- Sponsored Ad -</span>
+						<a href="#" class="widget-ads">
+							<img src="{% static 'images/ads/ad-360.png' %}" alt="Advertisement" />
+						</a>
+					</div>
+
+					<!-- widget tags -->
+					<div class="widget rounded">
+						<div class="widget-header text-center">
+							<h3 class="widget-title">Tag Clouds</h3>
+							<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
+						</div>
+						<div class="widget-content">
+							{% if not universal_tag%}
+							<h6>Tags are not added.</h6>
+							{%else%}
+							{% for i in universal_tag %}
+							<a href="#" class="tag">#{{i.Name}}</a>
+							{% endfor %}
+							{% endif %}
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+</section>
+
+
+{% endblock content %}

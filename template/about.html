@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% block title %} About{% endblock title %}
+{% block content %}
+{% load static %}
+<!-- page header -->
+<section class="page-header">
+	<div class="container-xl">
+		<div class="text-center">
+			<h1 class="mt-0 mb-2">About</h1>
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb justify-content-center mb-0">
+					<li class="breadcrumb-item"><a href="/">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">About</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+</section>
+
+<!-- section main content -->
+<section class="main-content">
+	<div class="container-xl">
+
+		<div class="row gy-4">
+
+			<div class="col-lg-8">
+
+				<div class="page-content bordered rounded padding-30">
+
+					<img src="{% static 'images/other/about.jpg' %}" alt="Katen Doe" class="rounded mb-4" />
+
+					<p>Hello! I'm Tahir Zaman, a passionate content writer with a deep fascination for fashion,
+						celebrity, and lifestyle. My mission is to help clients deliver the perfect content to the right
+						audience.</p>
+
+					<p>Just like a small river named Duden that flows gracefully by its surroundings, I supply your
+						content with the essential regelialia - that special touch that captivates readers. Together,
+						we'll create a paradisematic experience where every word and sentence takes flight, leaving a
+						delightful taste in the minds of your readers.</p>
+
+					<p>Even the all-powerful Pointing has no control over the blind texts, but that doesn't deter me. I
+						am determined to venture into the far World of Grammar, seeking perfection in every line of
+						text.</p>
+
+					<p>Some may caution against this journey, warning of the presence of thousands of bad Commas, wild
+						Question Marks, and devious Semikoli. However, I embrace the challenge and embark on this path
+						fearlessly. Armed with my seven versalia, I put my initial into the belt and set forth on this
+						exciting adventure.</p>
+
+					<p>Some may caution against this journey, warning of the presence of thousands of bad Commas, wild
+						Question Marks, and devious Semikoli. However, I embrace the challenge and embark on this path
+						fearlessly. Armed with my seven versalia, I put my initial into the belt and set forth on this
+						exciting adventure.</p>
+
+
+				</div>
+
+			</div>
+			<div class="col-lg-4">
+
+				<!-- sidebar -->
+				<div class="sidebar">
+					<!-- widget about -->
+					<div class="widget rounded">
+						<div class="widget-about data-bg-image text-center" data-bg-image="images/map-bg.png">
+							<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60">
+								<text x="0" y="40" fill="#203656" font-size="25" font-weight="bold">Edge</text>
+								<text x="60" y="40" fill="#203656" font-size="25" font-weight="bold">Buddies</text>
+								<circle cx="170" cy="32" r="9" fill="#FE4F70" />
+							</svg>
+
+							<p class="mb-4">Hello, We're content writer who is fascinated by content fashion, celebrity
+								and lifestyle. We helps clients bring the right content to the right people.</p>
+
+						</div>
+					</div>
+
+					<!-- widget popular posts -->
+					<div class="widget rounded">
+						<div class="widget-header text-center">
+							<h3 class="widget-title">Popular Posts</h3>
+							<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
+						</div>
+						<div class="widget-content">
+							<!-- post -->
+							<div class="post post-list-sm circle">
+								<div class="thumb circle">
+									<span class="number">1</span>
+									<a href="blog-single.html">
+										<div class="inner">
+											<img src="{images/posts/tabs-1.jpg" alt="post-title" />
+										</div>
+									</a>
+								</div>
+								<div class="details clearfix">
+									<h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make Your
+											iPhone Faster</a></h6>
+									<ul class="meta list-inline mt-1 mb-0">
+										<li class="list-inline-item">29 March 2021</li>
+									</ul>
+								</div>
+							</div>
+							<!-- post -->
+						</div>
+					</div>
+
+					<!-- widget categories -->
+					<div class="widget rounded">
+						<div class="widget-header text-center">
+							<h3 class="widget-title">Explore Topics</h3>
+							<img src="images/wave.svg" class="wave" alt="wave" />
+						</div>
+						<div class="widget-content">
+							<ul class="list">
+								<li><a href="#">Lifestyle</a><span>(5)</span></li>
+								<li><a href="#">Inspiration</a><span>(2)</span></li>
+								<li><a href="#">Fashion</a><span>(4)</span></li>
+								<li><a href="#">Politic</a><span>(1)</span></li>
+								<li><a href="#">Trending</a><span>(7)</span></li>
+								<li><a href="#">Culture</a><span>(3)</span></li>
+							</ul>
+						</div>
+
+					</div>
+
+
+					<!-- widget advertisement -->
+					<div class="widget no-container rounded text-md-center">
+						<span class="ads-title">- Sponsored Ad -</span>
+						<a href="#" class="widget-ads">
+							<img src="{% static 'images/ads/ad-360.png'%}" alt="Advertisement" />
+						</a>
+					</div>
+
+					<!-- widget tags -->
+					<div class="widget rounded">
+						<div class="widget-header text-center">
+							<h3 class="widget-title">Tag Clouds</h3>
+							<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
+						</div>
+						<div class="widget-content">
+							<a href="#" class="tag">#Trending</a>
+							<a href="#" class="tag">#Video</a>
+							<a href="#" class="tag">#Featured</a>
+							<a href="#" class="tag">#Gallery</a>
+							<a href="#" class="tag">#Celebrities</a>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,19 @@
+.hight-5{
+    height: 5rem;
+}
+.width-5{
+    width: 5rem;
+}
+.obj-fit{
+    object-fit: cover;
+}
+.my-padpx{
+    padding: 0px 15px;
+}
+/* .my-thumb{
+    max-width: 5rem;
+} */
+
+.post.post-list-sm.circle .thumb {
+    max-width: 77px;
+}

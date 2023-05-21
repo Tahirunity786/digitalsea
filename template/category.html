@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock title %}
+{% block content %}
+{% load static%}
+    <section class="page-header">
+        <div class="container-xl">
+            <div class="text-center">
+                <h1 class="mt-0 mb-2">{{category_data.Name}}</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{category_data.Name}}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+	<!-- section main content -->
+	<section class="main-content">
+		<div class="container-xl">
+
+			<div class="row gy-4">
+
+				<div class="col-lg-8">
+
+                    <div class="padding-30 rounded bordered">
+                
+                        <div class="row">
+                            {% for i in posts_related_to_category %}
+                            <div class="col-md-12 col-sm-6">
+                                <!-- post -->
+                                <div class="post post-list clearfix">
+                                    <div class="thumb rounded">
+                                        <span class="post-format-sm">
+                                            <i class="icon-picture"></i>
+                                        </span>
+                                        <a href="/core/{{i.new_slug}}">
+                                            <div class="inner">
+                                                <img src="/media/{{i.Feature_Image}}" alt="post-title" />
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="details">
+                                        <ul class="meta list-inline mb-3">
+                                            <li class="list-inline-item"><a href="#"><img src="{% static 'images/other/author-sm.png' %}"
+                                                        class="author" alt="author" />{{i.author}}</a></li>
+                                            <li class="list-inline-item"><a href="#">{{i.category}}</a></li>
+                                            <li class="list-inline-item">{{i.Date}}</li>
+                                        </ul>
+                                        <h5 class="post-title"><a href="/core/{{i.new_slug}}">{{i.Title|truncatechars:35}}</a></h5>
+                                        <p class="excerpt mb-0">{{i.content |safe|truncatechars_html:100}}</p>
+                                        <div class="post-bottom clearfix d-flex align-items-center">
+                                            {% comment %} Social icon will be {% endcomment %}
+                                            <div class="more-button float-end">
+                                                <a href="/core/{{i.new_slug}}"><span class="icon-options"></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            
+    
+    
+                        </div>
+
+    
+                    </div>
+
+					<nav>
+						<ul class="pagination justify-content-center">
+							<li class="page-item active" aria-current="page">
+								<span class="page-link">1</span>
+							</li>
+							<li class="page-item"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+						</ul>
+					</nav>
+
+				</div>
+				<div class="col-lg-4">
+
+					<!-- sidebar -->
+					<div class="sidebar">
+						<!-- widget about -->
+						<div class="widget rounded">
+							<div class="widget-about data-bg-image text-center" data-bg-image="{% static 'images/map-bg.png' %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="60">
+                                    <text x="0" y="40" fill="#203656" font-size="25" font-weight="bold">Edge</text>
+                                    <text x="60" y="40" fill="#203656" font-size="25" font-weight="bold">Buddies</text>
+                                    <circle cx="170" cy="32" r="9" fill="#FE4F70" />
+                                </svg>								<p class="mb-4">Hello, We're content writer who is fascinated by content fashion, celebrity and lifestyle. We helps clients bring the right content to the right people.</p>
+								
+							</div>
+						</div>
+
+						<!-- widget popular posts -->
+						<div class="widget rounded">
+							<div class="widget-header text-center">
+								<h3 class="widget-title">Popular Posts</h3>
+								<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
+							</div>
+							<div class="widget-content">
+								<!-- post -->
+                                {% for i in uniquecat_popular_posts %}
+								<div class="post post-list-sm circle">
+                                    <div class="thumb circle" style="height:4rem; width:4.2rem">
+                                        <span class="number">{{forloop.counter}}</span>
+                                        <a href="/core/{{i.new_slug}}">
+                                            <div class="inner">
+                                                <img src="/media/{{i.Feature_Image}}" alt="post-title"
+                                                    style="height:4rem; width:5.2rem; object-fit:cover;" />
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="details clearfix" style="padding:0px 15px;">
+                                        <h6 class="post-title my-0"><a href="/core/{{i.new_slug}}">{{i.Title}}</a></h6>
+                                        <ul class="meta list-inline mt-1 mb-0">
+                                            <li class="list-inline-item">{{i.Date}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                {% endfor %}
+								<!-- post -->
+								
+							</div>		
+						</div>
+
+						<!-- widget categories -->
+						<div class="widget rounded">
+							<div class="widget-header text-center">
+								<h3 class="widget-title">Explore Topics</h3>
+								<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
+							</div>
+							<div class="widget-content">
+								<ul class="list">
+                                    {% for i in Category_data %}
+									<li><a href="/core/{{i.slug}}">{{i.Name}}</a><span>{{i.post_set.all|length}}</span></li>
+                                    {% endfor %}
+								</ul>
+							</div>
+							
+						</div>
+
+						
+						<!-- widget advertisement -->
+						<div class="widget no-container rounded text-md-center">
+							<span class="ads-title">- Sponsored Ad -</span>
+							<a href="#" class="widget-ads">
+								<img src="{% static 'images/ads/ad-360.png' %}" alt="Advertisement" />	
+							</a>
+						</div>
+
+						<!-- widget tags -->
+						<div class="widget rounded">
+							<div class="widget-header text-center">
+								<h3 class="widget-title">Tag Clouds</h3>
+								<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
+							</div>
+							<div class="widget-content">
+								<a href="#" class="tag">#Trending</a>
+								<a href="#" class="tag">#Video</a>
+								<a href="#" class="tag">#Featured</a>
+								<a href="#" class="tag">#Gallery</a>
+								<a href="#" class="tag">#Celebrities</a>
+							</div>		
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</section>
+
+	<!-- instagram feed -->
+	
+	{% endblock content %}
