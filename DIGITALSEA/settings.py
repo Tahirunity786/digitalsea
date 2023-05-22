@@ -1,15 +1,12 @@
 
 from pathlib import Path
-
+from decouple import Config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECRET_KEY = Config('SECRET_KEY')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(-r*&5%sgg59w+)9r%*-+k@pje(m4u#v3$cn_3a)2_x-k8c9r7'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = Config('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -70,11 +67,11 @@ WSGI_APPLICATION = 'DIGITALSEA.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'CORE',
-        'USER':'root',
-        'PASSWORD':'Zaman7860@',
-        'HOST':'localhost',
-        'PORT':'3306',
+        'NAME': Config('NAME'),
+        'USER':Config('USER'),
+        'PASSWORD':Config('PASSWORD'),
+        'HOST':Config('HOST'),
+        
         
     }
 }
