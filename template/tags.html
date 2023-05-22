@@ -17,16 +17,7 @@
             <div class="padding-30 rounded bordered">
 
                 <div class="row">
-                    {% if unique_search_data|length < 1 %} <p>Your search query for: <b>{{query}}</b> did not match and
-                        document</p>
-                        <h6>Suggestion</h6>
-                        <ul>
-                            <li>Try different keywords</li>
-                            <li>Try gernal keywords</li>
-                            <li>Make sure you keywords between 10 to 70</li>
-                        </ul>
-                        {% else %}
-                        {% for i in unique_search_data %}
+                        {% for i in tag_post %}
                         <div class="col-md-12 col-sm-6">
                             <!-- post -->
                             <div class="post post-list clearfix">
@@ -61,7 +52,7 @@
                         </div>
                 </div>
                 {% endfor %}
-                {% endif %}
+                
 
             </div>
         </div>

@@ -15,31 +15,35 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import  settings
+from django.conf import settings
 from django.conf.urls.static import static
-from .views import main, postcate, contact, search, postcomment,about
+from .views import main, postcate, contact, search, postcomment, about, privacy_policy, Disclaimers, filtered_tag
 urlpatterns = [
     # ADMIN URL ROUTING
     path('admin/', admin.site.urls),
     # MAIN URLS
     path('', main, name='HOME'),
-    path('search/',search, name="About"),
+    path('search/', search, name="About"),
     path('contact/', contact, name="Contact"),
-    path('postcomment/',postcomment, name="comment" ),
+    path('postcomment/', postcomment, name="comment"),
     path('about/', about, name="about"),
+    path('privacy_policy/', privacy_policy, name="privacy policy"),
+    path('Disclaimers/', Disclaimers, name="Disclaimer"),
+    path('filtered-tag/', filtered_tag, name='filtered-tag'),
+
     # path('personal/', personal, name="Personal"),
-    
-    
+
+
 
     # DYNAMIC ROUTING
     # POST ROUTING
-    path('core/<slug:slug>/', postcate,name="Categpost"),
+    path('core/<slug:slug>/', postcate, name="Categpost"),
 
 
     # APPs URLs Settings
     path('core/', include('core.urls')),
-    
 
 
-    
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

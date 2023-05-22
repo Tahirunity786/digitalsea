@@ -2,11 +2,11 @@ from django.http import Http404
 from django.shortcuts import render, redirect,get_object_or_404
 from django.core.paginator import Paginator
 from core.models import Post, Category, Contact,Tag,Post_comment
-from collections import defaultdict
 from core.templatetags import extras
+
 # MAIN API
 def main(request):
-    recommended_posts = Post.objects.filter(section='Recomended').order_by('-id')[:4]
+    recommended_posts = Post.objects.filter(section='Recommended').order_by('-id')[:4]
     popular_posts = Post.objects.filter(section='Popular').order_by('-id')[:10]
     recent_posts = Post.objects.filter(section='Recent').order_by('-id')[:4]
     main_post = Post.objects.filter(Main_Post=True).order_by('-id')[:1]
@@ -56,10 +56,6 @@ def postcate(request, slug):
                 replyDict[parent_sno] = [reply]
             else:
                 replyDict[parent_sno].append(reply)
-
-
-        
-        # print("Reply dict is : ", replyDict) 
         # Logic end
         unique_post_comment_numver = Post_comment.objects.filter(post=post_slug).count()
         # Category for header
@@ -85,21 +81,28 @@ def postcate(request, slug):
         pass
     try:
         category_area= get_object_or_404(Category, slug = slug)
-        posts_related_to_category = Post.objects.filter(category = category_area)
+        posts_related_to_category = Post.objects.filter(category = category_area).order_by('-id')
         unique_category = Category.objects.get(slug=slug)
         uniquecat_popular_posts = Post.objects.filter(section='Popular').order_by('-id')[:3]
         category_flash = Category.objects.all()
         universal_tag = Tag.objects.all()
-
-        context ={
-            'posts_related_to_category':posts_related_to_category,
-            'uniquecat_popular_posts':uniquecat_popular_posts,
-            'category_data':unique_category,
-            'Category_data':category_flash,
-            'universal_tag':universal_tag,
-
+        # Pagination implementation
+        
+        pagination = Paginator(posts_related_to_category, 5)
+        page_counter = request.GET.get('page')
+        pagination_obj = pagination.get_page(page_counter)
+        print('Page number are', pagination_obj)
+        # Pagination implementation
+        context = {
+            'posts_related_to_category': posts_related_to_category,
+            'uniquecat_popular_posts': uniquecat_popular_posts,
+            'category_data': unique_category,
+            'Category_data': category_flash,
+            'universal_tag': universal_tag,
+            'pagination_obj': pagination_obj,
         }
-        return render(request, 'category.html',context)
+        return render(request, 'category.html', context)
+
     except:
         pass
 
@@ -134,7 +137,7 @@ def search(request):
         
         # All category 
         category_area= Category.objects.all()
-    
+        #
     context={
         'unique_search_data':all_post,
         'Popular_posts': search_popular_posts,
@@ -184,8 +187,40 @@ def postcomment(request):
 
 # ABOUT FUNCTION
 def about(request):
+    universal_tag = Tag.objects.all()
+    uniquecat_popular_posts = Post.objects.filter(section='Popular').order_by('-id')[:3]
+
     category_area= Category.objects.all()
     context = {
-        'Category_data':category_area
+        'Category_data':category_area,
+        'universal_tag': universal_tag,
+        'uniquecat_popular_posts':uniquecat_popular_posts,
+        
     }
     return render(request, 'about.html', context)
+
+
+def privacy_policy(request):
+    return render(request, 'privacy_policy.html')
+
+
+
+def Disclaimers(request):
+    return render(request, 'Disclaimer.html')
+
+def filtered_tag(request):
+    # Get the tag name from the request, assuming it is passed as a query parameter named 'tag'
+    tag_name = request.GET.get('tag')
+    
+    # Filter the posts based on the tag name
+    related_posts = Post.objects.filter(tags__Name=tag_name)
+    # Category DATA
+    category_area= Category.objects.all()
+    # Render the template and pass the related posts as context
+    
+    context = {
+        'tag_post': related_posts,
+        'Category_data':category_area,
+
+    }
+    return render(request, 'tags.html' , context)

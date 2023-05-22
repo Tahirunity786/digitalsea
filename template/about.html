@@ -2,6 +2,7 @@
 {% block title %} About{% endblock title %}
 {% block content %}
 {% load static %}
+{% load extras %}
 <!-- page header -->
 <section class="page-header">
 	<div class="container-xl">
@@ -82,25 +83,27 @@
 							<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
 						</div>
 						<div class="widget-content">
-							<!-- post -->
-							<div class="post post-list-sm circle">
-								<div class="thumb circle">
-									<span class="number">1</span>
-									<a href="blog-single.html">
-										<div class="inner">
-											<img src="{images/posts/tabs-1.jpg" alt="post-title" />
-										</div>
-									</a>
-								</div>
-								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make Your
-											iPhone Faster</a></h6>
-									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">29 March 2021</li>
-									</ul>
-								</div>
-							</div>
-							<!-- post -->
+							{% for i in uniquecat_popular_posts %}
+								<div class="post post-list-sm circle">
+                                    <div class="thumb circle" style="height:4rem; width:4.2rem">
+                                        <span class="number">{{forloop.counter}}</span>
+                                        <a href="/core/{{i.new_slug}}">
+                                            <div class="inner">
+                                                <img src="/media/{{i.Feature_Image}}" alt="post-title"
+                                                    style="height:4rem; width:5.2rem; object-fit:cover;" />
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="details clearfix" style="padding:0px 15px;">
+                                        <h6 class="post-title my-0"><a href="/core/{{i.new_slug}}">{{i.Title}}</a></h6>
+                                        <ul class="meta list-inline mt-1 mb-0">
+                                            <li class="list-inline-item">{{i.Date}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                {% endfor %}
+								<!-- post -->
+								
 						</div>
 					</div>
 
@@ -112,12 +115,18 @@
 						</div>
 						<div class="widget-content">
 							<ul class="list">
-								<li><a href="#">Lifestyle</a><span>(5)</span></li>
-								<li><a href="#">Inspiration</a><span>(2)</span></li>
-								<li><a href="#">Fashion</a><span>(4)</span></li>
-								<li><a href="#">Politic</a><span>(1)</span></li>
-								<li><a href="#">Trending</a><span>(7)</span></li>
-								<li><a href="#">Culture</a><span>(3)</span></li>
+								{% if not Category_data %}
+                                <h6>No topic here!</h6>
+                                {% else %}
+                                {% for i in Category_data %}
+                                <li>
+                                    <a href="/core/{{i.slug}}">{{i.Name}}</a>
+                                    <span>
+                                        {{i.post_set.all|length}}
+                                    </span>
+                                </li>
+                                {% endfor %}
+                                {% endif %}
 							</ul>
 						</div>
 
@@ -139,11 +148,13 @@
 							<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
 						</div>
 						<div class="widget-content">
-							<a href="#" class="tag">#Trending</a>
-							<a href="#" class="tag">#Video</a>
-							<a href="#" class="tag">#Featured</a>
-							<a href="#" class="tag">#Gallery</a>
-							<a href="#" class="tag">#Celebrities</a>
+							{% if not universal_tag%}
+                            <h6>No tag here</h6>
+                            {% else%}
+                            {% for i in universal_tag|dict_unique:"Name" %}
+                            <a href="#" class="tag">#{{i.Name}}</a>
+                            {% endfor%}
+                            {%endif%}
 						</div>
 					</div>
 

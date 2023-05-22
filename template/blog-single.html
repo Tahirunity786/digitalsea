@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{% endblock title %}
+{% block title %}{{ unique_post.0.Title|truncatechars:20 }}{% endblock title %}
 
 {% block content %}
 {% load static %}
@@ -11,8 +11,8 @@
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="/">Home</a></li>
-				<li class="breadcrumb-item"><a
-						href="/core/{{ unique_post.0.category.slug }}">{{ unique_post.0.category }}</a></li>
+				<li class="breadcrumb-item"><a href="/core/{{ unique_post.0.category.slug }}">{{ unique_post.0.category
+						}}</a></li>
 				<li class="breadcrumb-item active" aria-current="page"> {{ unique_post.0.Title }} </li>
 			</ol>
 		</nav>
@@ -30,7 +30,8 @@
 							<li class="list-inline-item"><a href="/admin/"><img
 										src="{% static 'images/other/author-sm.png' %}" class="author"
 										alt="author" />{{unique_post.0.author}}</a></li>
-							<li class="list-inline-item"><a href="{{unique_post.0.category.slug}}">{{unique_post.0.category }}</a></li>
+							<li class="list-inline-item"><a
+									href="{{unique_post.0.category.slug}}">{{unique_post.0.category }}</a></li>
 							<li class="list-inline-item">{{ unique_post.0.Date }}</li>
 						</ul>
 					</div>
@@ -88,20 +89,20 @@
 							<h6>No comment here...</h6>
 							{% else %}
 							{% for i in unique_post_comment %}
-							
-							
-							<li class="comment child rounded">
-								<div class="thumb">
-									<img style='height:3rem; width:3rem; border-radius: 50%; '
+
+
+						<li class="comment child rounded">
+							<div class="thumb">
+								<img style='height:3rem; width:3rem; border-radius: 50%; '
 									src="{% static 'images/other/comment.png'%}" alt="John Doe" />
-								</div>
-								<div class="details">
-							
+							</div>
+							<div class="details">
+
 								<h4 class="name"><a href="#">{{i.user}}</a></h4>
 
 								<span class="date">{{i.Date|naturaltime}}</span>
 								<p>{{i.User_Message}}.</p>
-								
+
 								<!-- Reply button -->
 								<button class="btn btn-default btn-sm" type="button" data-bs-toggle="collapse"
 									data-bs-target="#collapseExample{{i.id}}" aria-expanded="false"
@@ -119,11 +120,12 @@
 											</div>
 											<!-- reply messages -->
 											<div class="form-group">
-												<input type="text" class="form-control" id="InputComment" name="InputComment"
-													placeholder="Reply now..." required="required">
+												<input type="text" class="form-control" id="InputComment"
+													name="InputComment" placeholder="Reply now..." required="required">
 											</div>
 											<input type="hidden" name="mysano" value="{{i.id}}">
-											<input type="hidden" name="PostSno" placeholder={{unique_post.0.id}} value="{{unique_post.0.id}}">
+											<input type="hidden" name="PostSno" placeholder={{unique_post.0.id}}
+												value="{{unique_post.0.id}}">
 
 											<!-- Submit Button -->
 											<button type="submit" name="submit" id="submit" value="Submit"
@@ -132,28 +134,29 @@
 										</form>
 									</div>
 								</div>
-								
-								<button class="btn btn-default mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#Rep{{i.id}}" aria-expanded="false" aria-controls="Rep{{i.id}}">
+
+								<button class="btn btn-default mt-2" type="button" data-bs-toggle="collapse"
+									data-bs-target="#Rep{{i.id}}" aria-expanded="false" aria-controls="Rep{{i.id}}">
 									Show Replies <span><i class="fa fa-angle-down"></i></span>
-								  </button>
+								</button>
 								</p>
 								<div class="collapse" id="Rep{{i.id}}">
 									<div class="card card-body">
 										{% for reply in replyDict|get_val:i.id %}
-											<div class="thumb">
-												<img style="height:2rem; width:2rem; border-radius: 50%;" src="{% static 'images/other/comment.png' %}"
-													alt="John Doe" />
-											</div>
-											<div class="details" style="margin-left:0px">
-												<!-- Display reply details -->
-												<p class="name">Reply from <b>{{ reply.email }}</b> </a></p>
-												<span class="date">{{ reply.Date|naturaltime }}</span>
-												<p>{{ reply.User_Message }}</p>
-											</div>
+										<div class="thumb">
+											<img style="height:2rem; width:2rem; border-radius: 50%;"
+												src="{% static 'images/other/comment.png' %}" alt="John Doe" />
+										</div>
+										<div class="details" style="margin-left:0px">
+											<!-- Display reply details -->
+											<p class="name">Reply from <b>{{ reply.email }}</b> </a></p>
+											<span class="date">{{ reply.Date|naturaltime }}</span>
+											<p>{{ reply.User_Message }}</p>
+										</div>
 										{% endfor %}
 									</div>
 								</div>
-								
+
 							</div>
 
 						</li>
@@ -211,9 +214,10 @@
 							</div>
 
 						</div>
-						
-						<input type="hidden" name="PostSno" placeholder={{unique_post.0.id}} value="{{unique_post.0.id}}">
-						
+
+						<input type="hidden" name="PostSno" placeholder={{unique_post.0.id}}
+							value="{{unique_post.0.id}}">
+
 						<input type="hidden" name="mysano" value="">
 
 						<button type="submit" name="submit" id="submit" value="Submit"
@@ -312,13 +316,14 @@
 							<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
 						</div>
 						<div class="widget-content">
-							{% if not universal_tag%}
+							{% if not universal_tag %}
 							<h6>Tags are not added.</h6>
-							{%else%}
-							{% for i in universal_tag %}
-							<a href="#" class="tag">#{{i.Name}}</a>
+							{% else %}
+							{% for tag in universal_tag|dict_unique:"Name" %}
+							<a href="{% url 'filtered-tag' %}?tag={{ tag.Name }}" class="tag">#{{ tag.Name }}</a>
 							{% endfor %}
 							{% endif %}
+
 						</div>
 					</div>
 
