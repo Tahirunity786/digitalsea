@@ -8,7 +8,7 @@ SECRET_KEY = Config('SECRET_KEY')
 
 DEBUG = Config('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -66,12 +66,8 @@ WSGI_APPLICATION = 'DIGITALSEA.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': Config('NAME'),
-        'USER':Config('USER'),
-        'PASSWORD':Config('PASSWORD'),
-        'HOST':Config('HOST'),
-        
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME':BASE_DIR/'db.sqlite3'
         
     }
 }
@@ -111,10 +107,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Productiion level path
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'staticfiles'),
+    os.path.join(BASE_DIR,'staticfiles_build', 'static'),
 ]
 
 
